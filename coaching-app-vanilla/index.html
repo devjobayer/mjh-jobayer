@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coaching Pro - Management System</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -12,6 +14,9 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-light">
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;" id="toast-container"></div>
 
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
@@ -252,6 +257,7 @@
                                                     <th>Student</th>
                                                     <th>Month</th>
                                                     <th class="text-end">Amount</th>
+                                                    <th class="text-end">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="fees-history-table">
@@ -393,6 +399,106 @@
             </a>
         </div>
     </nav>
+
+    <!-- Student Details Modal -->
+    <div class="modal fade" id="studentDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title fw-bold">Student Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="detail-name">Student Name</h4>
+                            <p class="text-muted mb-0" id="detail-id">ID: 123</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded-3">
+                                <small class="text-muted d-block">Class</small>
+                                <strong id="detail-class">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded-3">
+                                <small class="text-muted d-block">Batch</small>
+                                <strong id="detail-batch">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded-3">
+                                <small class="text-muted d-block">Phone</small>
+                                <strong id="detail-phone">-</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-3">Payment History</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Month</th>
+                                    <th class="text-end">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detail-fees-table">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div class="modal fade" id="receiptModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-0">
+                <div class="modal-body p-4" id="receipt-print-area">
+                    <div class="text-center mb-4">
+                        <h3 class="fw-bold text-primary mb-1"><i class="bi bi-mortarboard-fill me-2"></i>Coaching Pro</h3>
+                        <p class="text-muted small">Money Receipt</p>
+                    </div>
+                    <div class="border-top border-bottom py-3 my-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Receipt No:</span>
+                            <strong id="receipt-id">#000</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Date:</span>
+                            <strong id="receipt-date">-</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Student Name:</span>
+                            <strong id="receipt-name">-</strong>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <span>Tuition Fee (<span id="receipt-month">-</span>)</span>
+                        <span class="fw-bold" id="receipt-amount">৳0</span>
+                    </div>
+                    <div class="mt-4 pt-3 border-top text-center">
+                        <p class="fw-bold text-success fs-5">PAID</p>
+                        <p class="small text-muted">Thank you for your payment.</p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="window.print()"><i class="bi bi-printer me-2"></i>Print</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Add Student Modal -->
     <div class="modal fade" id="addStudentModal" tabindex="-1" aria-hidden="true">

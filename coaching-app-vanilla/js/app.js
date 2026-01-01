@@ -168,15 +168,15 @@ function renderStudents() {
 
     tableBody.innerHTML = filtered.map(s => `
         <tr>
-            <td>${s.id}</td>
-            <td>${s.name}</td>
+            <td><span class="text-muted">#${s.id}</span></td>
+            <td><span class="fw-bold text-dark">${s.name}</span></td>
             <td>${s.class}</td>
-            <td>${s.batch}</td>
+            <td><span class="badge bg-light text-dark border">${s.batch}</span></td>
             <td>${s.phone}</td>
-            <td><span class="badge ${s.feesPaid ? 'bg-success' : 'bg-warning text-dark'}">${s.feesPaid ? 'Paid' : 'Pending'}</span></td>
+            <td><span class="badge ${s.feesPaid ? 'success-bg' : 'bg-warning text-dark'}">${s.feesPaid ? 'Paid' : 'Pending'}</span></td>
             <td>
-                <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${s.id})"><i class="bi bi-trash"></i></button>
+                <button class="btn btn-sm btn-light border me-1 text-primary" onclick="viewStudent(${s.id})" title="View Profile"><i class="bi bi-eye"></i></button>
+                <button class="btn btn-sm btn-light border text-danger" onclick="deleteStudent(${s.id})" title="Delete"><i class="bi bi-trash"></i></button>
             </td>
         </tr>
     `).join('');
@@ -202,9 +202,12 @@ function renderFees() {
         return `
         <tr>
             <td>${f.date}</td>
-            <td>${studentName}</td>
+            <td><span class="fw-bold">${studentName}</span></td>
             <td>${f.month}</td>
             <td class="text-end fw-bold text-success">৳${f.amount}</td>
+            <td class="text-end">
+                <button class="btn btn-sm btn-light border text-secondary" onclick="printReceipt(${f.id})"><i class="bi bi-printer"></i></button>
+            </td>
         </tr>`;
     }).join('');
 }
@@ -254,16 +257,66 @@ function renderReports() {
     const ctx1 = document.getElementById('incomeExpenseChart').getContext('2d');
     if(incomeExpenseChart) incomeExpenseChart.destroy();
 
+    // Gradients
+    const gradientIncome = ctx1.createLinearGradient(0, 0, 0, 400);
+    gradientIncome.addColorStop(0, '#4361ee');
+    gradientIncome.addColorStop(1, 'rgba(67, 97, 238, 0.3)');
+
+    const gradientExpense = ctx1.createLinearGradient(0, 0, 0, 400);
+    gradientExpense.addColorStop(0, '#ef476f');
+    gradientExpense.addColorStop(1, 'rgba(239, 71, 111, 0.3)');
+
     incomeExpenseChart = new Chart(ctx1, {
-        type: 'bar',
+        type: 'line', // Changed to Line for trend visualization
         data: {
             labels: labels,
             datasets: [
-                { label: 'Income', data: incomeData, backgroundColor: '#198754' },
-                { label: 'Expense', data: expenseData, backgroundColor: '#dc3545' }
+                {
+                    label: 'Income',
+                    data: incomeData,
+                    borderColor: '#4361ee',
+                    backgroundColor: gradientIncome,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#4361ee',
+                    pointRadius: 4
+                },
+                {
+                    label: 'Expense',
+                    data: expenseData,
+                    borderColor: '#ef476f',
+                    backgroundColor: gradientExpense,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#ef476f',
+                    pointRadius: 4
+                }
             ]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top', labels: { usePointStyle: true, font: { family: 'Poppins' } } },
+                tooltip: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    titleColor: '#333',
+                    bodyColor: '#666',
+                    borderColor: '#e5e7eb',
+                    borderWidth: 1,
+                    titleFont: { family: 'Poppins', weight: '600' },
+                    bodyFont: { family: 'Poppins' },
+                    padding: 10,
+                    cornerRadius: 8,
+                    displayColors: true
+                }
+            },
+            scales: {
+                y: { grid: { borderDash: [5, 5], color: '#f0f0f0' }, ticks: { font: { family: 'Poppins' } } },
+                x: { grid: { display: false }, ticks: { font: { family: 'Poppins' } } }
+            }
+        }
     });
 
     // Pie Chart
@@ -281,10 +334,18 @@ function renderReports() {
             labels: Object.keys(categories),
             datasets: [{
                 data: Object.values(categories),
-                backgroundColor: ['#0d6efd', '#6610f2', '#6f42c1', '#d63384', '#dc3545', '#fd7e14']
+                backgroundColor: ['#4361ee', '#3f37c9', '#4cc9f0', '#f72585', '#7209b7', '#480ca8'],
+                borderWidth: 0,
+                hoverOffset: 4
             }]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            cutout: '70%',
+            plugins: {
+                legend: { position: 'right', labels: { font: { family: 'Poppins' }, boxWidth: 15 } }
+            }
+        }
     });
 }
 
@@ -296,12 +357,74 @@ function refreshViews() {
     renderReports();
 }
 
+// Helper: Toast Notification
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    const toastEl = document.createElement('div');
+    toastEl.className = `toast align-items-center text-white bg-${type} border-0 show`;
+    toastEl.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    container.appendChild(toastEl);
+    setTimeout(() => {
+        toastEl.remove();
+    }, 3000);
+}
+
 // Global Actions (exposed for inline onclicks)
+window.viewStudent = (id) => {
+    const student = appData.students.find(s => s.id === id);
+    if(!student) return;
+
+    document.getElementById('detail-name').innerText = student.name;
+    document.getElementById('detail-id').innerText = `ID: ${student.id}`;
+    document.getElementById('detail-class').innerText = student.class;
+    document.getElementById('detail-batch').innerText = student.batch;
+    document.getElementById('detail-phone').innerText = student.phone;
+
+    const fees = appData.fees.filter(f => f.studentId === id);
+    const feeTable = document.getElementById('detail-fees-table');
+
+    if(fees.length > 0) {
+        feeTable.innerHTML = fees.map(f => `
+            <tr>
+                <td>${f.date}</td>
+                <td>${f.month}</td>
+                <td class="text-end fw-bold text-success">৳${f.amount}</td>
+            </tr>
+        `).join('');
+    } else {
+        feeTable.innerHTML = '<tr><td colspan="3" class="text-center text-muted">No records found</td></tr>';
+    }
+
+    new bootstrap.Modal(document.getElementById('studentDetailsModal')).show();
+};
+
+window.printReceipt = (feeId) => {
+    const fee = appData.fees.find(f => f.id === feeId);
+    if(!fee) return;
+    const student = appData.students.find(s => s.id === fee.studentId);
+
+    document.getElementById('receipt-id').innerText = `#${fee.id}`;
+    document.getElementById('receipt-date').innerText = fee.date;
+    document.getElementById('receipt-name').innerText = student ? student.name : 'Unknown';
+    document.getElementById('receipt-month').innerText = fee.month;
+    document.getElementById('receipt-amount').innerText = `৳${fee.amount}`;
+
+    new bootstrap.Modal(document.getElementById('receiptModal')).show();
+};
+
 window.deleteStudent = (id) => {
-    if(confirm('Are you sure?')) {
+    if(confirm('Are you sure you want to delete this student?')) {
         appData.students = appData.students.filter(s => s.id !== id);
+        // Also remove fees for this student
+        appData.fees = appData.fees.filter(f => f.studentId !== id);
         saveData(appData);
         refreshViews();
+        showToast('Student deleted successfully', 'danger');
     }
 };
 
@@ -310,6 +433,7 @@ window.deleteExpense = (id) => {
         appData.expenses = appData.expenses.filter(e => e.id !== id);
         saveData(appData);
         refreshViews();
+        showToast('Expense deleted', 'warning');
     }
 };
 
@@ -372,7 +496,7 @@ document.getElementById('fees-form').addEventListener('submit', (e) => {
 
     saveData(appData);
     e.target.reset();
-    alert('Fee Recorded Successfully');
+    showToast('Fee Recorded Successfully');
     refreshViews();
 });
 
