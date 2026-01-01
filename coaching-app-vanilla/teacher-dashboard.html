@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coaching Pro - Management System</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;" id="toast-container"></div>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-dark text-white" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom border-secondary">
+                <i class="bi bi-mortarboard-fill me-2"></i>Coaching Pro
+            </div>
+            <div class="list-group list-group-flush my-3">
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-white active-nav-link" id="nav-dashboard">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-white" id="nav-students">
+                    <i class="bi bi-people me-2"></i>Students
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-white" id="nav-fees">
+                    <i class="bi bi-cash-coin me-2"></i>Fees Collection
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-white" id="nav-expenses">
+                    <i class="bi bi-receipt me-2"></i>Expenses
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-white" id="nav-reports">
+                    <i class="bi bi-bar-chart me-2"></i>Reports
+                </a>
+                <a href="index.html" class="list-group-item list-group-item-action bg-transparent text-danger mt-5">
+                    <i class="bi bi-box-arrow-left me-2"></i>Logout
+                </a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 px-4 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-list fs-4 me-3" id="menu-toggle"></i>
+                    <h2 class="fs-2 m-0" id="page-title">Dashboard</h2>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-2"></i>Admin
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-4 py-4">
+
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section">
+                    <div class="row g-3 my-2">
+                        <div class="col-md-3">
+                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                <div>
+                                    <h3 class="fs-2" id="dash-total-students">0</h3>
+                                    <p class="fs-5">Students</p>
+                                </div>
+                                <i class="bi bi-people fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                <div>
+                                    <h3 class="fs-2" id="dash-total-income">0</h3>
+                                    <p class="fs-5">Income</p>
+                                </div>
+                                <i class="bi bi-currency-dollar fs-1 text-success border rounded-full success-bg p-3"></i>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                <div>
+                                    <h3 class="fs-2" id="dash-total-expense">0</h3>
+                                    <p class="fs-5">Expense</p>
+                                </div>
+                                <i class="bi bi-graph-down fs-1 text-danger border rounded-full danger-bg p-3"></i>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                                <div>
+                                    <h3 class="fs-2" id="dash-net-profit">0</h3>
+                                    <p class="fs-5">Net Profit</p>
+                                </div>
+                                <i class="bi bi-wallet2 fs-1 text-primary border rounded-full primary-bg p-3"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row my-5">
+                        <div class="col-lg-7 col-md-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="card-title mb-0">Recent Admissions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Class</th>
+                                                    <th scope="col">Batch</th>
+                                                    <th scope="col">Phone</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="dash-recent-students">
+                                                <!-- Dynamic Content -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="card-title mb-0">Recent Activity</h5>
+                                </div>
+                                <div class="card-body" id="dash-recent-activity">
+                                    <!-- Dynamic Content -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Students Section -->
+                <section id="students" class="content-section d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fs-4 mb-0">Manage Students</h3>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                            <i class="bi bi-plus-lg me-2"></i>Add Student
+                        </button>
+                    </div>
+
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="student-search" placeholder="Search by name or phone...">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Class</th>
+                                            <th>Batch</th>
+                                            <th>Phone</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="students-table-body">
+                                        <!-- Dynamic Content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Fees Section -->
+                <section id="fees" class="content-section d-none">
+                    <h3 class="fs-4 mb-4">Fees Collection</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Collect Fees</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="fees-form">
+                                        <div class="mb-3">
+                                            <label class="form-label">Select Student</label>
+                                            <select class="form-select" id="fee-student-select" required>
+                                                <option value="">-- Select Student --</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Month</label>
+                                            <select class="form-select" id="fee-month" required>
+                                                <option value="">-- Select Month --</option>
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Amount (৳)</label>
+                                            <input type="number" class="form-control" id="fee-amount" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-success w-100">Record Payment</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Payment History</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Student</th>
+                                                    <th>Month</th>
+                                                    <th class="text-end">Amount</th>
+                                                    <th class="text-end">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="fees-history-table">
+                                                <!-- Dynamic Content -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Expenses Section -->
+                <section id="expenses" class="content-section d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fs-4 mb-0">Expense Tracking</h3>
+                        <div class="text-danger fw-bold fs-5">Total: ৳<span id="expense-total-display">0</span></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Add Expense</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="expense-form">
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <input type="text" class="form-control" id="expense-desc" placeholder="e.g. Electricity Bill" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Category</label>
+                                            <select class="form-select" id="expense-category" required>
+                                                <option value="Supplies">Supplies</option>
+                                                <option value="Utilities">Utilities</option>
+                                                <option value="Rent">Rent</option>
+                                                <option value="Salaries">Salaries</option>
+                                                <option value="Maintenance">Maintenance</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Amount (৳)</label>
+                                            <input type="number" class="form-control" id="expense-amount" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Date</label>
+                                            <input type="date" class="form-control" id="expense-date" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-danger w-100">Add Expense</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Expense List</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Description</th>
+                                                    <th>Category</th>
+                                                    <th class="text-end">Amount</th>
+                                                    <th class="text-end">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="expense-list-table">
+                                                <!-- Dynamic Content -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports" class="content-section d-none">
+                    <h3 class="fs-4 mb-4">Financial Reports</h3>
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm h-100">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Income vs Expenses (Monthly)</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="incomeExpenseChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm h-100">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Expense Distribution</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="expensePieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bottom Navigation for Mobile -->
+    <nav class="navbar navbar-dark bg-dark fixed-bottom d-md-none shadow-lg">
+        <div class="container-fluid justify-content-around">
+            <a href="#" class="nav-link text-white text-center active-nav-link" id="mob-nav-dashboard">
+                <i class="bi bi-speedometer2 fs-4 d-block"></i>
+                <span class="small" style="font-size: 10px;">Home</span>
+            </a>
+            <a href="#" class="nav-link text-white text-center text-white-50" id="mob-nav-students">
+                <i class="bi bi-people fs-4 d-block"></i>
+                <span class="small" style="font-size: 10px;">Students</span>
+            </a>
+            <a href="#" class="nav-link text-white text-center text-white-50" id="mob-nav-fees">
+                <i class="bi bi-cash-coin fs-4 d-block"></i>
+                <span class="small" style="font-size: 10px;">Fees</span>
+            </a>
+            <a href="#" class="nav-link text-white text-center text-white-50" id="mob-nav-expenses">
+                <i class="bi bi-receipt fs-4 d-block"></i>
+                <span class="small" style="font-size: 10px;">Expenses</span>
+            </a>
+            <a href="#" class="nav-link text-white text-center text-white-50" id="mob-nav-reports">
+                <i class="bi bi-bar-chart fs-4 d-block"></i>
+                <span class="small" style="font-size: 10px;">Reports</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Student Details Modal -->
+    <div class="modal fade" id="studentDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title fw-bold">Student Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0 fw-bold" id="detail-name">Student Name</h4>
+                            <p class="text-muted mb-0" id="detail-id">ID: 123</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded-3">
+                                <small class="text-muted d-block">Class</small>
+                                <strong id="detail-class">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded-3">
+                                <small class="text-muted d-block">Batch</small>
+                                <strong id="detail-batch">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded-3">
+                                <small class="text-muted d-block">Phone</small>
+                                <strong id="detail-phone">-</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-3">Payment History</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Month</th>
+                                    <th class="text-end">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detail-fees-table">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div class="modal fade" id="receiptModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-0">
+                <div class="modal-body p-4" id="receipt-print-area">
+                    <div class="text-center mb-4">
+                        <h3 class="fw-bold text-primary mb-1"><i class="bi bi-mortarboard-fill me-2"></i>Coaching Pro</h3>
+                        <p class="text-muted small">Money Receipt</p>
+                    </div>
+                    <div class="border-top border-bottom py-3 my-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Receipt No:</span>
+                            <strong id="receipt-id">#000</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Date:</span>
+                            <strong id="receipt-date">-</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Student Name:</span>
+                            <strong id="receipt-name">-</strong>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <span>Tuition Fee (<span id="receipt-month">-</span>)</span>
+                        <span class="fw-bold" id="receipt-amount">৳0</span>
+                    </div>
+                    <div class="mt-4 pt-3 border-top text-center">
+                        <p class="fw-bold text-success fs-5">PAID</p>
+                        <p class="small text-muted">Thank you for your payment.</p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="window.print()"><i class="bi bi-printer me-2"></i>Print</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-student-form">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="student-name" required>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Class</label>
+                                <input type="text" class="form-control" id="student-class" required>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Batch</label>
+                                <select class="form-select" id="student-batch" required>
+                                    <option value="Morning">Morning</option>
+                                    <option value="Evening">Evening</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="student-phone" required>
+                        </div>
+                        <div class="modal-footer px-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Student</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- App JS -->
+    <script src="js/teacher.js"></script>
+</body>
+</html>

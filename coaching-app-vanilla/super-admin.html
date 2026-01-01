@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin - SaaS Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Specific overrides for Super Admin if needed */
+        .sidebar-heading { background: #4e73df; color: white !important; }
+        #sidebar-wrapper { background: #224abe !important; }
+        .list-group-item-action:hover { background-color: rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-primary text-white" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom border-light">
+                <i class="bi bi-clouds-fill me-2"></i>SaaS Admin
+            </div>
+            <div class="list-group list-group-flush my-3">
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-white active-nav-link">
+                    <i class="bi bi-speedometer2 me-2"></i>Overview
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="bi bi-buildings me-2"></i>Centers
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="bi bi-cash-stack me-2"></i>Subscriptions
+                </a>
+                <a href="index.html" class="list-group-item list-group-item-action bg-transparent text-danger mt-5">
+                    <i class="bi bi-box-arrow-left me-2"></i>Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 px-4 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-list fs-4 me-3" id="menu-toggle"></i>
+                    <h2 class="fs-2 m-0">Super Admin Dashboard</h2>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-4 py-4">
+                <!-- Stats -->
+                <div class="row g-3 my-2">
+                    <div class="col-md-4">
+                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                            <div>
+                                <h3 class="fs-2" id="total-centers">0</h3>
+                                <p class="fs-5">Active Centers</p>
+                            </div>
+                            <i class="bi bi-shop fs-1 text-primary p-3"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                            <div>
+                                <h3 class="fs-2" id="total-revenue">৳0</h3>
+                                <p class="fs-5">Total Revenue</p>
+                            </div>
+                            <i class="bi bi-currency-dollar fs-1 text-success p-3"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                            <div>
+                                <h3 class="fs-2">5</h3>
+                                <p class="fs-5">Pending Requests</p>
+                            </div>
+                            <i class="bi bi-envelope-exclamation fs-1 text-warning p-3"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Centers Table -->
+                <div class="row my-5">
+                    <h3 class="fs-4 mb-3">Registered Coaching Centers</h3>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Center Name</th>
+                                                <th>Admin</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                                <th>Joined Date</th>
+                                                <th>Revenue</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="centers-table-body">
+                                            <!-- Dynamic Content -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/super-admin.js"></script>
+    <script>
+        // Toggle Menu Script
+        var el = document.getElementById("wrapper");
+        var toggleButton = document.getElementById("menu-toggle");
+        toggleButton.onclick = function () {
+            el.classList.toggle("toggled");
+        };
+    </script>
+</body>
+</html>
