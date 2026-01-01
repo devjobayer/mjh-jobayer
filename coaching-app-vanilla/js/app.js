@@ -44,24 +44,52 @@ menuToggle.addEventListener("click", () => {
 });
 
 const navLinks = document.querySelectorAll('.list-group-item-action');
+const mobileNavLinks = document.querySelectorAll('#mob-nav-dashboard, #mob-nav-students, #mob-nav-fees, #mob-nav-expenses, #mob-nav-reports');
 
-navLinks.forEach(link => {
+// Combine both lists
+const allNavLinks = [...navLinks, ...mobileNavLinks];
+
+allNavLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        // Handle Sidebar Navigation only (ignore logout)
-        if (e.target.innerText.includes('Logout')) return;
+        // Handle Sidebar/Bottom Navigation only (ignore logout)
+        if (link.innerText.includes('Logout')) return;
 
         e.preventDefault();
 
-        // Update Active State
+        // Determine Target ID
+        let targetId = '';
+        if (link.id.startsWith('nav-')) {
+            targetId = link.id.replace('nav-', '');
+        } else if (link.id.startsWith('mob-nav-')) {
+            targetId = link.id.replace('mob-nav-', '');
+        }
+
+        // Update Active State (Sidebar + Mobile Nav)
         navLinks.forEach(l => l.classList.remove('active-nav-link'));
-        link.classList.add('active-nav-link');
+        mobileNavLinks.forEach(l => {
+            l.classList.remove('active-nav-link');
+            l.classList.add('text-white-50'); // Reset opacity style
+            l.classList.remove('text-white');
+        });
+
+        // Set active for clicked link and its counterpart
+        const sidebarLink = document.getElementById(`nav-${targetId}`);
+        const mobileLink = document.getElementById(`mob-nav-${targetId}`);
+
+        if (sidebarLink) sidebarLink.classList.add('active-nav-link');
+        if (mobileLink) {
+            mobileLink.classList.add('active-nav-link');
+            mobileLink.classList.remove('text-white-50');
+            mobileLink.classList.add('text-white');
+        }
 
         // Show Content
-        const targetId = link.id.replace('nav-', '');
         showSection(targetId);
 
-        // Update Title
-        pageTitle.innerText = link.innerText.trim();
+        // Update Title (Get text from sidebar link for consistency)
+        if(sidebarLink) {
+             pageTitle.innerText = sidebarLink.innerText.trim();
+        }
 
         // Refresh Data on View Change
         refreshViews();
